@@ -1,0 +1,4 @@
+3
+2025 05 22 14 30 120 2.14 : Reunião DTD : Luis Baptista
+2025 05 24 17 00 60 E1 : Apresentação Projetos : Pardal Inventor
+2025 06 10 10 00 180 E1 : Computação Quântica : Alberto Relativo

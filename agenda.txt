@@ -1,0 +1,5 @@
+4 3
+2025 05 22 11 00 120 1.08 : AED : Luis Baptista
+2025 05 22 12 00 120 2.14 : Gestão de Empresas : Malmequer Lambreta
+2025 05 24 14 10 240 E1 : Apresentação da empresa Bolotas Voadoras : GEE
+2025 06 10 12 30 60 E1 : História da Pintura : Salvador Daqui

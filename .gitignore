@@ -1,0 +1,10 @@
+﻿# Ignorar ficheiros e pastas do CLion e CMake
+.idea/
+cmake-build-debug/
+*.exe
+*.o
+*.obj
+*.dll
+*.log
+*.tmp
+*.DS_Store
