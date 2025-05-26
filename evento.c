@@ -97,34 +97,33 @@ void setProximoEvento(NodeEvento n, NodeEvento proximo) {
     if (n != NULL) n->proximo = proximo;
 }
 
-int espacoLivreEntreEventos(NodeEvento novo, NodeEvento lista) {
-    Data inicioNovo = getDataInicio(getEvento(novo));
-    Data fimNovo = getDataFim(getEvento(novo));
+NodeEvento espacoLivreEntreEventos(NodeEvento lista, Evento novoEvento) {
+    Data inicioNovo = getDataInicio(novoEvento);
+    Data fimNovo = getDataFim(novoEvento);
 
     NodeEvento atual = lista;
-    NodeEvento seguinte = getProximoEvento(atual);
+    NodeEvento anterior = NULL;
 
-    while (seguinte != NULL) {
-        Data fimAtual = getDataFim(getEvento(atual));
-        Data inicioSeguinte = getDataInicio(getEvento(seguinte));
-
-        if (compararDatas(fimAtual, inicioNovo) <= 0 && compararDatas(fimNovo, inicioSeguinte) <= 0) {
-            return 1;
+    while (atual != NULL) {
+        Data inicioAtual = getDataInicio(getEvento(atual));
+        if (anterior == NULL) {
+            if (compararDatas(fimNovo, inicioAtual) <= 0) {
+                return NULL; // Inserir no início
+            }
+        } else {
+            Data fimAnterior = getDataFim(getEvento(anterior));
+            if (compararDatas(fimAnterior, inicioNovo) <= 0 &&
+                compararDatas(fimNovo, inicioAtual) <= 0) {
+                return anterior; // Inserir entre anterior e atual
+            }
         }
-
-        atual = seguinte;
-        seguinte = getProximoEvento(seguinte);
+        anterior = atual;
+        atual = getProximoEvento(atual);
     }
 
-    Data fimUltimo = getDataFim(getEvento(atual));
-    if (compararDatas(fimUltimo, inicioNovo) <= 0) {
-        return 1;
-    }
-
-    return 0;
+    // Se chegou ao fim, insere no fim (depois do último)
+    return anterior;
 }
-
-
 
 void inserirNovoEvento(Agenda agenda, const char* nomeSala, Evento evento) {
     if (agenda == NULL || nomeSala == NULL || evento == NULL) {
@@ -139,19 +138,28 @@ void inserirNovoEvento(Agenda agenda, const char* nomeSala, Evento evento) {
     }
 
     Sala sala = getSala(agenda, i);
-
-    espacoLivreEntreEventos(evento, getEventos(sala));
-
+    NodeEvento lista = getEventos(sala);
     NodeEvento novo = criarNodeEvento(evento);
+
     if (novo == NULL) {
         printf("Erro ao criar nodo para evento.\n");
         destruirEvento(evento);
         return;
     }
 
-    setProximoEvento(novo, getEventos(sala));
-    setEventos(sala, novo);
+    NodeEvento anterior = espacoLivreEntreEventos(lista, evento);
+
+    if (anterior == NULL) {
+        // Inserir no início
+        setProximoEvento(novo, lista);
+        setEventos(sala, novo);
+    } else {
+        // Inserir entre anterior e o seguinte
+        setProximoEvento(novo, getProximoEvento(anterior));
+        setProximoEvento(anterior, novo);
+    }
 }
+
 
 void lerEvento(FILE* file, Agenda agenda) {
     int numEventos;
@@ -203,6 +211,6 @@ void lerEvento(FILE* file, Agenda agenda) {
             continue;
         }
 
-        inserirNovoEventoAgenda(agenda, sala, evento);
+        inserirNovoEvento(agenda, sala, evento);
     }
 }
