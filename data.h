@@ -10,7 +10,8 @@ typedef struct data *Data;
 void destruirData(Data data);
 
 int compararDatas(Data d1, Data d2);
-
+int compararDataFim(Data d1, Data d2);
+int compararDataDeInicio(Data d1, Data d2);
 
 int getAno(Data data);
 int getMes(Data data);

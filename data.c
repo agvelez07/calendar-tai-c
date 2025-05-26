@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "data.h"
 
 struct data {
@@ -33,10 +32,26 @@ int compararDatas(Data d1, Data d2) {
     if (d1->ano != d2->ano) return d1->ano - d2->ano;
     if (d1->mes != d2->mes) return d1->mes - d2->mes;
     if (d1->dia != d2->dia) return d1->dia - d2->dia;
-    if (d1->hora != d2->hora) return d1->hora - d2->hora;
     return d1->min - d2->min;
 }
 
+int compararDataDeInicio(Data d1, Data d2) {
+    if(d1->ano != d2->ano || d1->mes != d2->mes || d1->dia != d2->dia) return 0;
+    if(d1->hora > d2->hora) return 1;
+    if(d1->hora == d2->hora && d1->min > d2->min) return 1;
+    return 0;
+}
+
+int compararDataFim(Data d1, Data d2) {
+    if(d1->ano != d2->ano || d1->mes != d2->mes || d1->dia != d2->dia) return 0;
+    if(d1->hora < d2->hora) return 1;
+    if(d1->hora == d2->hora && d1->min < d2->min) return 1;
+    return 0;
+}
+
+
+
+/*
 int getAno(Data data) {
     return (data != NULL) ? data->ano : -1;
 }
@@ -56,3 +71,4 @@ int getHora(Data data) {
 int getMin(Data data) {
     return (data != NULL) ? data->min : -1;
 }
+*/
